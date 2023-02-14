@@ -42,40 +42,35 @@ namespace WindowsSystem
     public abstract class Interfaz //Beverage o bevida
     {
 
-        public string description = " ";
+        protected string description = " ";
 
         public abstract string getDescription();
 
     }
 
-    public abstract class Funcion : Interfaz //tamaaño size : beverage
+    public abstract class FuncionDecorador : Interfaz //tamaaño size : beverage
     {
         public abstract override string getDescription();
     }
 
 
-    public class ScrollingWindow : Funcion //Medida chico : size
+    public class ScrollingWindow : FuncionDecorador //Medida chico : size
     {
 
         Interfaz pantalla;
         public ScrollingWindow(Interfaz _pantalla)
         {
             this.pantalla = _pantalla;
-            pantalla.description += "Scrolling de pantalla,";
+            //pantalla.description += "Scrolling de pantalla,";
         }
 
         public override string getDescription()
         {
-            return pantalla.getDescription();
+            return pantalla.getDescription() + "Scrolling de pantalla,";
         }
     }
 
-    public abstract class FuncionBorder : Interfaz
-    {
-        public abstract override string getDescription();
-    }
-    
-    public class BorderToWindow : FuncionBorder
+    public class BorderToWindow : FuncionDecorador
     {
         Interfaz Border;
         public BorderToWindow(Interfaz _Border)
@@ -101,12 +96,12 @@ namespace WindowsSystem
         }
     }
 
-    public abstract class FuncionAdicional : Interfaz
+    /*public abstract class FuncionAdicional : Interfaz
     {
         public abstract override string getDescription();
-    }
+    }*/
 
-    public class FuncionAdd : FuncionAdicional
+    public class FuncionAdd : FuncionDecorador
     {
         Interfaz FuncionN;
         public FuncionAdd(Interfaz _func)

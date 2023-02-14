@@ -21,11 +21,19 @@ namespace WindowsSystem
             Interfaz ventanaSinBorde = new Ventana();
             ventanaSinBorde = new ScrollingWindow(ventanaSinBorde);
 
+            Interfaz ventanaConMuchasFunciones = new Ventana();
+            ventanaConMuchasFunciones = new ScrollingWindow(ventanaConMuchasFunciones);
+            ventanaConMuchasFunciones = new BorderToWindow(ventanaConMuchasFunciones);
+            ventanaConMuchasFunciones = new FuncionAdd(ventanaConMuchasFunciones);
+            ventanaConMuchasFunciones = new FuncionAdd(ventanaConMuchasFunciones);
+            ventanaConMuchasFunciones = new FuncionAdd(ventanaConMuchasFunciones);
+
 
             //ventana = new BorderToWindow(ventana);
             Console.WriteLine("Ventana 1: " + ventana.getDescription());
             Console.WriteLine("Ventana 2: " + ventanaSinScroll.getDescription());
-            Console.WriteLine("Ventana 2: " + ventanaSinBorde.getDescription());
+            Console.WriteLine("Ventana 3: " + ventanaSinBorde.getDescription());
+            Console.WriteLine("Ventana 4: " + ventanaConMuchasFunciones.getDescription());
 
             //ventana = new BorderToWindow(ventana);
             Console.ReadKey();
@@ -77,7 +85,7 @@ namespace WindowsSystem
         }
         public override string getDescription()
         {
-            return Border.getDescription() + " Borde de ventana";
+            return Border.getDescription() + " Borde de ventana,";
         }
     }
 
@@ -100,14 +108,16 @@ namespace WindowsSystem
 
     public class FuncionAdd : FuncionAdicional
     {
-        public FuncionAdd()
+        Interfaz FuncionN;
+        public FuncionAdd(Interfaz _func)
         {
-            description = "Funcion adicional agregada";
+
+            this.FuncionN = _func;
         }
 
         public override string getDescription()
         {
-            return description;
+            return FuncionN.getDescription() + " Funcion adicional,";
         }
     }
 

@@ -4,117 +4,88 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ventanas
+namespace WindowsSystem
 {
     class Program
     {
         static void Main(string[] args)
         {
 
-            /*Beverage beverage = new Expresso();
-            Console.WriteLine(beverage.getDescription() + ": $ " + beverage.cost());
+            Interfaz ventana = new Ventana();
+            ventana = new ScrollingWindow(ventana);
+            ventana = new BorderToWindow(ventana);
 
-            Beverage beverage2 = new Decaf();
-            beverage2 = new Mocha(beverage2);
-            beverage2 = new Chico(beverage2);
-            Console.WriteLine(beverage2.getDescription() + ": $" + beverage2.cost());
+            Interfaz ventanaSinScroll = new Ventana();
+            ventanaSinScroll = new BorderToWindow(ventanaSinScroll);
+
+            Interfaz ventanaSinBorde = new Ventana();
+            ventanaSinBorde = new ScrollingWindow(ventanaSinBorde);
 
 
-            Beverage beverage3 = new DarkRoast();
-            beverage3 = new Mocha(beverage3);
-            beverage3 = new Grande(beverage3);
-            Console.WriteLine(beverage3.getDescription() + ": $" + beverage3.cost());
+            //ventana = new BorderToWindow(ventana);
+            Console.WriteLine("Ventana 1: " + ventana.getDescription());
+            Console.WriteLine("Ventana 2: " + ventanaSinScroll.getDescription());
+            Console.WriteLine("Ventana 2: " + ventanaSinBorde.getDescription());
 
-            Beverage beverage4 = new DarkRoast();
-            beverage4 = new Mocha(beverage4);
-            beverage4 = new Milk(beverage4);
-            beverage4 = new Mediano(beverage4);
-            Console.WriteLine(beverage4.getDescription() + ": $" + beverage4.cost());
-
-            Beverage beverage5 = new Expresso();
-            beverage5 = new Mocha(beverage5);
-            beverage5 = new Mocha(beverage5);
-            beverage5 = new Milk(beverage5);
-            beverage5 = new Grande(beverage5);
-            Console.WriteLine(beverage5.getDescription() + "$" + beverage5.cost());
-
-            Console.WriteLine("Nota: Estuvo dificil");*/
+            //ventana = new BorderToWindow(ventana);
             Console.ReadKey();
         }
     }
-    public abstract class Interfaz
+    public abstract class Interfaz //Beverage o bevida
     {
 
-        /*protected string description = "Bebida desconocida";
-        public string size = "Tamaño desconocido";*/
+        public string description = " ";
 
         public abstract string getDescription();
 
-        public abstract string getSize();
-
-        public abstract double cost();
-
     }
 
-    public abstract class Ventana : Interfaz
-    {
-        public abstract override double cost();
-    }
-
-
-    public class ScrollingWindow : Ventana
-    {
-
-        Beverage beverage;
-        public Chico(Beverage _beverage)
-        {
-
-            this.beverage = _beverage;
-            beverage.size = "Chico";
-        }
-
-        public override double cost()
-        {
-            return beverage.cost();
-        }
-
-        public override string getSize()
-        {
-            return beverage.size;
-        }
-
-
-        public override string getDescription()
-        {
-            return beverage.getDescription() + " , " + beverage.getSize();
-        }
-    }
-
-    public abstract class WindowWithBor : Beverage
+    public abstract class Funcion : Interfaz //tamaaño size : beverage
     {
         public abstract override string getDescription();
-
     }
 
-    public class WindowWithBorder : Interfaz
+
+    public class ScrollingWindow : Funcion //Medida chico : size
     {
 
-        public WindowWithBorder()
+        Interfaz pantalla;
+        public ScrollingWindow(Interfaz _pantalla)
         {
-
-            description = "Dark Roast";
-            //Console.Write("Dark Roast");
-
+            this.pantalla = _pantalla;
+            pantalla.description += "Scrolling de pantalla,";
         }
 
-        public override double cost()
+        public override string getDescription()
         {
-            return 0.99;
+            return pantalla.getDescription();
         }
+    }
 
-        public override string getSize()
+    public abstract class FuncionBorder : Interfaz
+    {
+        public abstract override string getDescription();
+    }
+    
+    public class BorderToWindow : FuncionBorder
+    {
+        Interfaz Border;
+        public BorderToWindow(Interfaz _Border)
         {
-            return size;
+            this.Border = _Border;
+            //Border.description += "Borde de ventana";
+        }
+        public override string getDescription()
+        {
+            return Border.getDescription() + " Borde de ventana";
+        }
+    }
+
+    public class Ventana : Interfaz
+    {
+        public Ventana()
+        {
+            description = "Ventana con: ";
         }
         public override string getDescription()
         {
@@ -122,51 +93,16 @@ namespace Ventanas
         }
     }
 
-    public class ScrollingWithBorder : Interfaz
+    public abstract class FuncionAdicional : Interfaz
     {
-
-        public ScrollingWithBorder()
-        {
-
-            //description = "Decaf";
-            this.description = "Decaf";
-        }
-
-        public override double cost()
-        {
-            return 1.05;
-        }
-
-        public override string getDescription()
-        {
-            return description;
-        }
-
-        public override string getSize()
-        {
-            return size;
-        }
+        public abstract override string getDescription();
     }
 
-    /*public class Expresso : Beverage
+    public class FuncionAdd : FuncionAdicional
     {
-
-        public Expresso()
+        public FuncionAdd()
         {
-
-            description = "Expresso";
-            this.description = "Expresso";
-
-        }
-
-        public override double cost()
-        {
-            return 1.99;
-        }
-
-        public override string getSize()
-        {
-            return size;
+            description = "Funcion adicional agregada";
         }
 
         public override string getDescription()
@@ -174,199 +110,5 @@ namespace Ventanas
             return description;
         }
     }
-
-    public class Grande : Size
-    {
-        Beverage beverage;
-        public Grande(Beverage beverage)
-        {
-
-            this.beverage = beverage;
-            beverage.size = "Grande";
-
-        }
-
-        public override double cost()
-        {
-            return (beverage.cost()) * 2;
-        }
-
-
-        public override string getDescription()
-        {
-            return beverage.getDescription() + " , " + beverage.getSize();
-        }
-
-        public override string getSize()
-        {
-            return size;
-        }
-
-    }
-
-    public class HouseBlend : Beverage
-    {
-        public HouseBlend()
-        {
-
-            description = "House Blend";
-
-        }
-
-        public override double cost()
-        {
-            return 0.89;
-        }
-
-        public override string getSize()
-        {
-            return size;
-        }
-
-        public override string getDescription()
-        {
-            return description;
-        }
-    }
-
-    public class Mediano : Size
-    {
-
-        Beverage beverage;
-
-        public Mediano(Beverage _beverage)
-        {
-
-            this.beverage = _beverage;
-            beverage.size = "Mediano";
-            //size = "mediano";
-
-        }
-
-        public override double cost()
-        {
-            return (beverage.cost()) + (beverage.cost()) * 0.5;
-        }
-
-        public override string getDescription()
-        {
-            return beverage.getDescription() + " , " + beverage.getSize();
-        }
-
-        public override string getSize()
-        {
-            return size;
-        }
-
-    }
-
-    public class Milk : CondimentDecorator
-    {
-
-        Beverage beverage;
-
-        public Milk(Beverage beverage)
-        {
-
-            this.beverage = beverage;
-
-        }
-        public override double cost()
-        {
-            return 0.10 + beverage.cost();
-        }
-
-        public override string getDescription()
-        {
-            return beverage.getDescription() + ", Milk";
-        }
-
-        public override string getSize()
-        {
-            return size;
-        }
-
-    }
-
-    public class Mocha : CondimentDecorator
-    {
-        Beverage beverage;
-
-        public Mocha(Beverage _beverage)
-        {
-
-            this.beverage = _beverage;
-
-
-        }
-        public override double cost()
-        {
-            return 0.20 + beverage.cost();
-        }
-
-        public override string getDescription()
-        {
-            //Console.WriteLine("Prueba mocha: ");
-            return beverage.getDescription() + ", Mocha";
-        }
-
-        public override string getSize()
-        {
-            return size;
-        }
-
-    }
-
-    public class Soy : CondimentDecorator
-    {
-        Beverage beverage;
-        public Soy(Beverage beverage)
-        {
-
-            this.beverage = beverage;
-
-        }
-        public override double cost()
-        {
-            return 0.15 + beverage.cost();
-        }
-
-        public override string getDescription()
-        {
-            return beverage.getDescription() + ", Soy";
-        }
-
-        public override string getSize()
-        {
-            return size;
-        }
-    }
-
-    public class Whip : CondimentDecorator
-    {
-        Beverage beverage;
-        public Whip(Beverage beverage)
-        {
-
-            this.beverage = beverage;
-
-        }
-        public override double cost()
-        {
-            return 0.10 + beverage.cost();
-        }
-        public override string getDescription()
-        {
-            return beverage.getDescription() + ", whip";
-        }
-
-        public override string getSize()
-        {
-            return size;
-        }
-    }*/
-
-
-
 
 }
